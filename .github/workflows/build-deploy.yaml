@@ -1,0 +1,16 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: 
+      - main 
+
+jobs:
+
+  setup-build-publish:
+
+    name: Setup build and setup-build-publish
+    runs-on: ubuntu-latest
+
+    steps:
+    - run: echo "Build started "
