@@ -14,3 +14,6 @@ jobs:
 
     steps:
     - run: echo "Build started "
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - run: echo "Project repository has been clonded to runner(ubuntu)"
