@@ -7,6 +7,9 @@ on:
 
 env:
   DEPLOYMENT_NAME: supplier
+  PROJECT_ID: ${{ secrets.GKA_PROJECT }}
+  GKE_CLUSTER: ctse-assignment3
+  GKE_ZONE: us-central1-c
 
 jobs:
 
@@ -40,3 +43,10 @@ jobs:
       with:
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{env.DEPLOYMENT_NAME}}:latest
+
+  deploy:
+    needs: setup-build-publish
+    name: deploy to GCP
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deplyment started"
