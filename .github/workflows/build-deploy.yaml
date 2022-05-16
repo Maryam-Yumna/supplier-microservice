@@ -42,7 +42,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{env.DEPLOYMENT_NAME}}:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{env.DEPLOYMENT_NAME}}:${{ github.sha }}
 
   deploy:
     needs: setup-build-publish
@@ -73,5 +73,6 @@ jobs:
       - name: Deploy
         run: |-
           kubectl apply -f deployment.yaml -f service.yaml
+          kubectl set image deployment/$DEPLOYMENT_NAME supplier=maryamyumna/supplier:${{ github.sha }}
           kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
