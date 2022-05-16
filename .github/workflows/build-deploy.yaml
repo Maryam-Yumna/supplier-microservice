@@ -3,7 +3,10 @@ name: Docker Image CI
 on:
   push:
     branches: 
-      - main 
+      - main
+
+env:
+  DEPLOYMENT_NAME: supplier
 
 jobs:
 
@@ -25,3 +28,15 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    #Build and push to docker hub
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{env.DEPLOYMENT_NAME}}:latest
